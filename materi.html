@@ -1,186 +1,271 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Materi Rasio Adiwiyata (Perbandingan)</title>
+    <title>Materi Rasio & Perbandingan Adiwiyata</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+
     <style>
+        :root {
+            --duo-green: #58cc02;
+            --duo-green-shadow: #46a302;
+            --duo-blue: #1cb0f6;
+            --duo-blue-shadow: #1899d6;
+            --duo-yellow: #ffc800;
+            --duo-yellow-shadow: #e5b200;
+            --duo-gray: #e5e5e5;
+            --duo-gray-shadow: #cecece;
+            --duo-dark: #3c3c3c;
+            --bg-main: #f0f7ee;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Nunito', 'Poppins', sans-serif;
+        }
+
         body {
-            font-family: 'Poppins', sans-serif;
-            line-height: 1.8;
-            background-color: #f1f8e9; /* Hijau muda lembut */
-            color: #2e3d29;
+            background-color: var(--bg-main);
+            background-image: radial-gradient(#c8e6c9 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
             margin: 0;
             padding: 20px;
+            color: var(--duo-dark);
         }
+
         .container {
-            max-width: 850px;
-            margin: 20px auto;
-            background-color: white;
-            padding: 30px 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            border: 1px solid #c8e6c9;
+            width: 100%;
+            max-width: 800px;
         }
-        h1, h2, h3 {
-            color: #1b5e20;
-        }
-        h1 {
-            text-align: center;
-            font-size: 2.2em;
+
+        .bento-logo-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
             margin-bottom: 20px;
+            background: var(--card-bg);
+            border: 3px solid var(--duo-gray);
+            border-bottom: 6px solid var(--duo-gray-shadow);
+            padding: 12px;
+            border-radius: 22px;
+            flex-wrap: wrap;
         }
-        h2 {
-            border-bottom: 3px solid #2e7d32;
-            padding-bottom: 10px;
-            margin-top: 40px;
+
+        .bento-logo-bar svg, .bento-logo-bar img {
+            height: 48px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .bento-header {
+            background: var(--card-bg);
+            border: 3px solid var(--duo-gray);
+            border-bottom: 6px solid var(--duo-gray-shadow);
+            border-radius: 24px;
+            padding: 18px 25px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        h1 {
+            margin: 0;
             font-size: 1.8em;
+            font-weight: 900;
+            color: var(--duo-green-shadow);
         }
-        h3 {
-            color: #2e7d32;
-            font-size: 1.3em;
-        }
-        .concept-box, .example-box {
-            background-color: #f9fbe7;
-            border-left: 5px solid #2e7d32;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-        }
-        .example-box {
-            border-left-color: #388e3c; /* Hijau cerah untuk contoh */
-            background-color: #f1f8e9;
-        }
-        code {
-            background-color: #e8f5e9;
-            padding: 3px 6px;
-            border-radius: 4px;
-            font-family: 'Courier New', Courier, monospace;
-        }
-        .video-container {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%; /* Aspect Ratio 16:9 */
-            height: 0;
-            margin-top: 20px;
-            overflow: hidden;
-            border-radius: 15px;
-        }
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        .navigation {
-            text-align: center;
-            margin-top: 40px;
-        }
-        .back-button {
-            display: inline-block;
-            padding: 12px 25px;
-            background-color: #2e7d32;
-            color: white;
+
+        .btn-3d {
+            background-color: var(--duo-gray);
+            color: var(--duo-dark);
+            border: none;
+            border-bottom: 4px solid var(--duo-gray-shadow);
+            border-radius: 16px;
+            padding: 10px 20px;
+            font-size: 0.95em;
+            font-weight: 900;
+            cursor: pointer;
             text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: transform 0.2s, background-color 0.3s;
+            display: inline-block;
+            transition: all 0.1s ease;
         }
-        .back-button:hover {
-            background-color: #1b5e20;
-            transform: translateY(-3px);
+
+        .btn-3d:active {
+            transform: translateY(3px);
+            border-bottom-width: 1px;
+        }
+
+        .btn-green {
+            background-color: var(--duo-green);
+            color: white;
+            border-bottom-color: var(--duo-green-shadow);
+        }
+
+        .bento-card {
+            background-color: var(--card-bg);
+            border: 3px solid var(--duo-gray);
+            border-bottom: 7px solid var(--duo-gray-shadow);
+            border-radius: 24px;
+            padding: 25px;
+            margin-bottom: 22px;
+        }
+
+        .bento-card h2 {
+            margin-top: 0;
+            color: var(--duo-blue-shadow);
+            font-size: 1.4em;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bento-card p {
+            font-size: 1.05em;
+            line-height: 1.6;
+            font-weight: 700;
+            color: #444;
+        }
+
+        .example-box {
+            background-color: #f7f9fa;
+            border: 2px solid #c8e6c9;
+            border-left: 6px solid var(--duo-green);
+            border-radius: 16px;
+            padding: 15px 18px;
+            margin-top: 15px;
+            font-weight: 800;
+        }
+
+        .formula-box {
+            background-color: #fffde7;
+            border: 2px solid var(--duo-yellow);
+            border-radius: 16px;
+            padding: 12px 16px;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: 900;
+            color: #4b3c00;
+            margin: 12px 0;
+        }
+
+        .bottom-nav {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.4em; }
+            .bento-card { padding: 18px; }
+            .bento-logo-bar svg, .bento-logo-bar img { height: 40px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📖 Materi Lengkap Rasio Adiwiyata</h1>
-        
-        <h2>💡 Apa Itu Rasio dalam Gerakan Adiwiyata?</h2>
-        <p>
-            <strong>Rasio (Perbandingan)</strong> adalah cara membandingkan dua besaran atau lebih yang memiliki satuan yang sama dan ditulis dalam bentuk paling sederhana. Dalam kegiatan Adiwiyata Sekolah, rasio sering digunakan untuk membandingkan jumlah sampah terpilah, takaran pembuatan kompos organik, rasio penanaman bibit pohon, hingga efisiensi penggunaan air/energi.
-        </p>
-        <p>
-            Misalnya, jika bank sampah sekolah mengumpulkan 10 kg sampah organik dan 5 kg sampah anorganik, rasio sampah organik terhadap anorganik adalah 10 : 5, yang disederhanakan menjadi <strong>2 : 1</strong>.
-        </p>
-        <ul>
-            <li><strong>Penerapan Adiwiyata:</strong> Pengomposan sampah, takaran pupuk cair (POC), pembuatan ecobrick, skala denah kebun TOGA, dan efisiensi air wudhu daur ulang.</li>
-            <li><strong>Pentingnya:</strong> Membantu kader Adiwiyata mengelola sumber daya sekolah secara ilmiah, efisien, dan ramah lingkungan.</li>
-        </ul>
 
-        <h2>⚙️ Jenis-Jenis Perbandingan</h2>
-        <p>Dalam pengelolaan lingkungan sekolah Adiwiyata, terdapat dua jenis perbandingan yang sering kita jumpai:</p>
+        <div class="bento-logo-bar">
+            <svg viewBox="0 0 100 100" title="Logo PGRI">
+                <circle cx="50" cy="50" r="46" fill="#1b5e20" stroke="#fbc02d" stroke-width="4"/>
+                <circle cx="50" cy="50" r="38" fill="#ffffff"/>
+                <path d="M50 18 L62 40 L38 40 Z" fill="#d32f2f"/>
+                <rect x="46" y="40" width="8" height="32" fill="#795548"/>
+                <path d="M30 68 C 40 55, 60 55, 70 68 Z" fill="#2e7d32"/>
+                <text x="50" y="84" font-size="10" font-weight="bold" text-anchor="middle" fill="#1b5e20">PGRI WONOGIRI</text>
+            </svg>
 
-        <h3>1. Perbandingan Senilai (Proporsi Langsung)</h3>
-        <div class="concept-box">
-            <strong>Perbandingan Senilai</strong> terjadi jika satu variabel bertambah, maka variabel lainnya ikut bertambah secara sebanding (dan sebaliknya).
-            <br><br>
-            <strong>Rumus:</strong>
-            <p style="text-align:center; font-size: 1.5em;">\(\frac{a_1}{b_1} = \frac{a_2}{b_2}\)</p>
+            <svg viewBox="0 0 100 100" title="Logo Pemkab Wonogiri">
+                <path d="M50 8 L85 25 V60 C85 78 50 92 50 92 C50 92 15 78 15 60 V25 Z" fill="#0288d1" stroke="#fbc02d" stroke-width="3"/>
+                <path d="M50 15 L78 30 V58 C78 72 50 84 50 84 C50 84 22 72 22 58 V30 Z" fill="#2e7d32"/>
+                <polygon points="50,22 55,35 68,35 57,43 61,56 50,48 39,56 43,43 32,35 45,35" fill="#fbc02d"/>
+                <text x="50" y="76" font-size="9" font-weight="bold" text-anchor="middle" fill="#ffffff">WONOGIRI</text>
+            </svg>
+
+            <img src="logo-madrasah.png" alt="Logo MTsN 3 Wonogiri" onerror="this.style.display='none'">
+            <img src="logo-matsaga-ceria.png" alt="Logo Matsaga Ceria" onerror="this.style.display='none'">
+            <img src="logo-adiwiyata.png" alt="Logo Sekolah Adiwiyata" onerror="this.style.display='none'">
         </div>
 
-        <div class="example-box">
-            <h3>Contoh Soal Cerita Adiwiyata (Senilai)</h3>
-            <p> Untuk membuat 5 kg pupuk kompos matang, tim Adiwiyata memerlukan 15 kg dedaunan kering. Jika tim Adiwiyata ingin membuat 18 kg pupuk kompos matang untuk taman sekolah, berapa kg dedaunan kering yang dibutuhkan? </p>
-            <p><strong>Penyelesaian:</strong></p>
-            <ol>
-                <li><strong>Identifikasi variabel:</strong><br>
-                    - Hasil Kompos (a): \(a_1\) = 5 kg, \(a_2\) = 18 kg<br>
-                    - Dedaunan Kering (b): \(b_1\) = 15 kg, \(b_2\) = ?
-                </li>
-                <li><strong>Masukkan ke rumus:</strong> \(\frac{5}{15} = \frac{18}{b_2}\)</li>
-                <li><strong>Selesaikan persamaan:</strong> \(b_2 = \frac{15 \times 18}{5} = 54\)</li>
-            </ol>
-            <p><strong>Jadi, dedaunan kering yang dibutuhkan adalah 54 kg.</strong></p>
+        <div class="bento-header">
+            <h1>📖 Modul Belajar Rasio</h1>
+            <a href="index.html" class="btn-3d">🏠 Beranda Utama</a>
         </div>
 
-        <h3>2. Perbandingan Berbalik Nilai</h3>
-        <div class="concept-box">
-            <strong>Perbandingan Berbalik Nilai</strong> terjadi jika satu variabel bertambah, maka variabel lainnya justru berkurang secara sebanding (dan sebaliknya).
-            <br><br>
-            <strong>Rumus:</strong>
-            <p style="text-align:center; font-size: 1.5em;">\(a_1 \times b_1 = a_2 \times b_2\)</p>
+        <div class="bento-card">
+            <h2>🍂 1. Konsep Dasar Rasio</h2>
+            <p><strong>Rasio (Perbandingan)</strong> adalah cara membandingkan dua besaran sejenis dengan cara pembagian. Notasi rasio dituliskan sebagai <strong>a : b</strong> atau <strong>a / b</strong>.</p>
+            
+            <div class="example-box">
+                🌱 <strong>Contoh Adiwiyata:</strong><br>
+                Kader lingkungan memilah <strong>6 kg sampah organik</strong> dan <strong>15 kg sampah anorganik</strong>.<br>
+                Maka rasio sampah organik terhadap anorganik adalah <strong>6 : 15</strong>.
+            </div>
         </div>
 
-        <div class="example-box">
-            <h3>Contoh Soal Cerita Adiwiyata (Berbalik Nilai)</h3>
-            <p> Kegiatan penanaman 60 bibit pohon di taman Adiwiyata sekolah dapat diselesaikan oleh 10 siswa kader hijau dalam waktu 60 menit. Jika kegiatan penanaman ingin diselesaikan dalam waktu 40 menit, berapa banyak siswa kader hijau yang dibutuhkan seluruhnya? </p>
-            <p><strong>Penyelesaian:</strong></p>
-            <ol>
-                <li><strong>Identifikasi variabel:</strong><br>
-                    - Jumlah Siswa (a): \(a_1\) = 10 siswa, \(a_2\) = ?<br>
-                    - Waktu Penanaman (b): \(b_1\) = 60 menit, \(b_2\) = 40 menit
-                </li>
-                <li><strong>Masukkan ke rumus:</strong> \(10 \times 60 = a_2 \times 40\)</li>
-                <li>
-                    <strong>Selesaikan persamaan:</strong>
-                    <div style="margin-left: -15px;"> 
-                        <p style="margin: 5px 0;">Dari persamaan: \(600 = 40 \times a_2\)</p>
-                        <p style="margin: 5px 0;">Maka, nilai \(a_2\) adalah: \(a_2 = \frac{600}{40} = 15\) siswa</p>
-                    </div>
-                </li>
-                <li><strong>Hitung siswa tambahan:</strong> \(15 - 10 = 5\) siswa tambahan</li>
-            </ol>
-            <p><strong>Jadi, jumlah siswa yang dibutuhkan adalah 15 orang (atau menambah 5 siswa lagi).</strong></p>
-        </div>
-        
-        <h2>🚀 Video Penjelasan Tambahan</h2>
-        <div class="video-container">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/PdDRPUuNIVg?si=McgfuFrGXoLU-VFY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-        <div class="video-container">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/sop63Y5SSV4?si=OhMGR8AWh_HmEnL7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <div class="bento-card">
+            <h2>✨ 2. Menyederhanakan Rasio</h2>
+            <p>Rasio dapat disederhanakan dengan cara membagi kedua bilangan menggunakan <strong>FPB (Faktor Persekutuan Terbesar)</strong> hingga menjadi bentuk yang paling sederhana.</p>
+
+            <div class="formula-box">
+                a : b  ➔  (a ÷ FPB) : (b ÷ FPB)
+            </div>
+
+            <div class="example-box">
+                🧹 <strong>Contoh Adiwiyata:</strong><br>
+                Rasio sampah di atas adalah <strong>6 : 15</strong>. FPB dari 6 dan 15 adalah <strong>3</strong>.<br>
+                Sederhanakan: (6 ÷ 3) : (15 ÷ 3) = <strong>2 : 5</strong>.
+            </div>
         </div>
 
-        <div class="navigation">
-            <a href="index.html" class="back-button">Kembali ke Halaman Utama</a>
+        <div class="bento-card">
+            <h2>📈 3. Perbandingan Senilai</h2>
+            <p>Perbandingan senilai terjadi jika dua nilai besaran bergerak <strong>searah</strong>. Jika besaran A bertambah, maka besaran B juga akan <strong>bertambah</strong> secara proporsional.</p>
+
+            <div class="formula-box">
+                a1 / b1 = a2 / b2
+            </div>
+
+            <div class="example-box">
+                🪴 <strong>Contoh Adiwiyata:</strong><br>
+                Untuk membuat <strong>3 pot gantung ecobrick</strong> dibutuhkan <strong>12 botol plastik</strong>.<br>
+                Jika ingin membuat <strong>8 pot gantung</strong>, berapa botol yang dibutuhkan?<br>
+                <i>Jawab:</i> (12 ÷ 3) x 8 = 4 x 8 = <strong>32 botol plastik</strong>.
+            </div>
         </div>
+
+        <div class="bento-card">
+            <h2>📉 4. Perbandingan Berbalik Nilai</h2>
+            <p>Perbandingan berbalik nilai terjadi jika dua besaran bergerak <strong>berlawanan arah</strong>. Jika besaran A bertambah, maka besaran B akan <strong>berkurang</strong>.</p>
+
+            <div class="formula-box">
+                a1 x b1 = a2 x b2
+            </div>
+
+            <div class="example-box">
+                🧹 <strong>Contoh Adiwiyata:</strong><br>
+                <strong>4 siswa</strong> kader lingkungan dapat membersihkan kebun sekolah dalam waktu <strong>6 jam</strong>.<br>
+                Jika pekerjaan dilakukan oleh <strong>8 siswa</strong>, berapa jam waktu yang dibutuhkan?<br>
+                <i>Jawab:</i> (4 x 6) ÷ 8 = 24 ÷ 8 = <strong>3 jam</strong>.
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <a href="game.html" class="btn-3d btn-green" style="font-size: 1.1em; padding: 12px 28px;">🎮 Uji Pemahaman di Game Misi ➔</a>
+        </div>
+
     </div>
 </body>
 </html>

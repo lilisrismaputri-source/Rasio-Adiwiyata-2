@@ -5,139 +5,266 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pembelajaran Rasio - Sekolah Adiwiyata</title>
     
-    <!-- Google Fonts: Poppins & Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        eco: {
-                            50: '#f0fdf4',
-                            100: '#dcfce7',
-                            200: '#bbf7d0',
-                            300: '#86efac',
-                            400: '#4ade80',
-                            500: '#22c55e',
-                            600: '#16a34a',
-                            700: '#15803d',
-                            800: '#166534',
-                            900: '#14532d',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                        display: ['Poppins', 'sans-serif'],
-                    },
-                    boxShadow: {
-                        'bento': '0 20px 40px -15px rgba(22, 163, 74, 0.12)',
-                    }
-                }
-            }
+    <style>
+        :root {
+            --duo-green: #58cc02;
+            --duo-green-shadow: #46a302;
+            --duo-blue: #1cb0f6;
+            --duo-blue-shadow: #1899d6;
+            --duo-yellow: #ffc800;
+            --duo-yellow-shadow: #e5b200;
+            --duo-gray: #e5e5e5;
+            --duo-gray-shadow: #cecece;
+            --duo-dark: #3c3c3c;
+            --bg-main: #f0f7ee;
+            --card-bg: #ffffff;
         }
-    </script>
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Nunito', 'Poppins', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            background-image: radial-gradient(#c8e6c9 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            color: var(--duo-dark);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+            text-align: center;
+        }
+
+        .bento-logo-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 25px;
+            background: var(--card-bg);
+            border: 3px solid var(--duo-gray);
+            border-bottom: 6px solid var(--duo-gray-shadow);
+            padding: 14px 20px;
+            border-radius: 24px;
+            flex-wrap: wrap;
+        }
+
+        .bento-logo-bar svg, .bento-logo-bar img {
+            height: 52px;
+            width: auto;
+            object-fit: contain;
+            transition: transform 0.2s;
+        }
+
+        .bento-logo-bar svg:hover, .bento-logo-bar img:hover {
+            transform: scale(1.08);
+        }
+
+        .bento-main-card {
+            background-color: var(--card-bg);
+            border: 3px solid var(--duo-gray);
+            border-bottom: 8px solid var(--duo-gray-shadow);
+            border-radius: 28px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            color: var(--duo-green-shadow);
+            font-size: 2.3em;
+            margin: 0 0 8px 0;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: var(--duo-blue-shadow);
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .intro-box {
+            background-color: #f7f9fa;
+            border: 2px solid var(--duo-gray);
+            border-radius: 20px;
+            padding: 20px;
+            color: var(--duo-dark);
+            font-size: 1.05em;
+            line-height: 1.6;
+            font-weight: 700;
+            text-align: justify;
+        }
+
+        .navigation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .nav-card {
+            background-color: var(--card-bg);
+            border: 3px solid var(--duo-gray);
+            border-bottom: 7px solid var(--duo-gray-shadow);
+            border-radius: 24px;
+            padding: 24px;
+            text-decoration: none;
+            color: var(--duo-dark);
+            transition: all 0.15s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: left;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--duo-green);
+            border-bottom-color: var(--duo-green-shadow);
+        }
+
+        .nav-card:active {
+            transform: translateY(2px);
+            border-bottom-width: 3px;
+        }
+
+        .nav-card h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.5em;
+            font-weight: 900;
+            color: var(--duo-green-shadow);
+        }
+
+        .nav-card p {
+            margin: 0;
+            font-size: 0.95em;
+            font-weight: 700;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .btn-arrow {
+            display: inline-block;
+            margin-top: 15px;
+            background-color: var(--duo-green);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 14px;
+            font-weight: 900;
+            font-size: 0.9em;
+            text-align: center;
+            border-bottom: 3px solid var(--duo-green-shadow);
+        }
+
+        .footer {
+            margin-top: 35px;
+            padding: 15px 25px;
+            background: var(--card-bg);
+            border: 2px solid var(--duo-gray);
+            border-bottom: 4px solid var(--duo-gray-shadow);
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .footer .creator-name {
+            font-weight: 900;
+            font-size: 1.05em;
+            margin: 0;
+            color: var(--duo-green-shadow);
+        }
+
+        .footer .institution-name {
+            margin: 0;
+            font-size: 0.95em;
+            font-weight: 800;
+            color: #777;
+        }
+
+        @media (max-width: 600px) {
+            .bento-logo-bar svg, .bento-logo-bar img { height: 42px; }
+            h1 { font-size: 1.8em; }
+            .subtitle { font-size: 0.95em; }
+        }
+    </style>
 </head>
-<body class="bg-gradient-to-br from-sky-50 via-eco-50 to-amber-50 min-h-screen text-slate-800 font-sans flex items-center justify-center p-4 sm:p-8 relative overflow-x-hidden selection:bg-eco-200 selection:text-eco-900">
+<body>
+    <div class="container">
 
-    <!-- Ambient Glow Bubbles -->
-    <div class="fixed -top-32 -left-32 w-96 h-96 bg-eco-200/40 rounded-full blur-3xl pointer-events-none"></div>
-    <div class="fixed -bottom-32 -right-32 w-96 h-96 bg-sky-200/40 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="bento-logo-bar">
+            <svg viewBox="0 0 100 100" title="Logo PGRI">
+                <circle cx="50" cy="50" r="46" fill="#1b5e20" stroke="#fbc02d" stroke-width="4"/>
+                <circle cx="50" cy="50" r="38" fill="#ffffff"/>
+                <path d="M50 18 L62 40 L38 40 Z" fill="#d32f2f"/>
+                <rect x="46" y="40" width="8" height="32" fill="#795548"/>
+                <path d="M30 68 C 40 55, 60 55, 70 68 Z" fill="#2e7d32"/>
+                <text x="50" y="84" font-size="10" font-weight="bold" text-anchor="middle" fill="#1b5e20">PGRI WONOGIRI</text>
+            </svg>
 
-    <div class="w-full max-w-5xl mx-auto relative z-10 text-center">
+            <svg viewBox="0 0 100 100" title="Logo Pemkab Wonogiri">
+                <path d="M50 8 L85 25 V60 C85 78 50 92 50 92 C50 92 15 78 15 60 V25 Z" fill="#0288d1" stroke="#fbc02d" stroke-width="3"/>
+                <path d="M50 15 L78 30 V58 C78 72 50 84 50 84 C50 84 22 72 22 58 V30 Z" fill="#2e7d32"/>
+                <polygon points="50,22 55,35 68,35 57,43 61,56 50,48 39,56 43,43 32,35 45,35" fill="#fbc02d"/>
+                <text x="50" y="76" font-size="9" font-weight="bold" text-anchor="middle" fill="#ffffff">WONOGIRI</text>
+            </svg>
 
-        <!-- Header Section -->
-        <header class="mb-10">
-            <!-- Competition Badge -->
-            <div class="inline-flex items-center gap-2 bg-amber-100 text-amber-900 border-2 border-amber-300 border-b-4 border-b-amber-400 font-display font-extrabold text-xs sm:text-sm px-4 py-1.5 rounded-full uppercase tracking-wider mb-6 shadow-sm">
-                <span>🏆</span> Lomba Game Edukasi AI PGRI Kab. Wonogiri 2026
+            <img src="logo-madrasah.png" alt="Logo MTsN 3 Wonogiri" onerror="this.style.display='none'">
+            <img src="logo-matsaga-ceria.png" alt="Logo Matsaga Ceria" onerror="this.style.display='none'">
+            <img src="logo-adiwiyata.png" alt="Logo Sekolah Adiwiyata" onerror="this.style.display='none'">
+        </div>
+
+        <div class="bento-main-card">
+            <h1>🌱 Rasio & Perbandingan Adiwiyata 🌱</h1>
+            <div class="subtitle">Materi Pembelajaran Berbasis Lingkungan - Kelas 7 SMP/MTs</div>
+            
+            <div class="intro-box">
+                Pernahkah kamu memilah sampah organik dan anorganik, membuat pupuk kompos, menghitung pemakaian air hemat, atau menanam bibit di kebun Adiwiyata sekolah? Semua kegiatan pelestarian lingkungan tersebut memanfaatkan konsep rasio! Mari pelajari perbandingan matematika sambil menjaga kelestarian bumi kita.
             </div>
+        </div>
 
-            <!-- Official Logos Pill -->
-            <div class="flex items-center justify-center gap-3 sm:gap-5 flex-wrap bg-white/80 backdrop-blur-md px-5 py-3 rounded-3xl border-2 border-white shadow-sm inline-flex mb-6">
-                <img src="logo-pgri.png" alt="Logo PGRI" class="h-11 sm:h-14 w-auto object-contain hover:scale-105 transition-transform" title="Persatuan Guru Republik Indonesia">
-                <img src="logo-wonogiri.png" alt="Logo Pemkab Wonogiri" class="h-11 sm:h-14 w-auto object-contain hover:scale-105 transition-transform" title="Pemerintah Kabupaten Wonogiri">
-                <div class="h-10 w-px bg-slate-200 mx-1"></div>
-                <img src="logo-madrasah.png" alt="Logo MTsN 3 Wonogiri" class="h-10 sm:h-12 w-auto object-contain hover:scale-105 transition-transform" title="MTs Negeri 3 Wonogiri">
-                <img src="logo-matsaga-ceria.png" alt="Logo Matsaga Ceria" class="h-10 sm:h-12 w-auto object-contain hover:scale-105 transition-transform" title="Matsaga Ceria">
-                <img src="logo-adiwiyata.png" alt="Logo Sekolah Adiwiyata" class="h-10 sm:h-12 w-auto object-contain hover:scale-105 transition-transform" title="Sekolah Peduli Lingkungan Adiwiyata">
-            </div>
-
-            <h1 class="text-3xl sm:text-5xl font-display font-black text-eco-900 tracking-tight mb-3">
-                🌱 Rasio & Perbandingan Adiwiyata 🌱
-            </h1>
-            <p class="text-eco-700 font-display font-bold text-base sm:text-lg mb-4">
-                Media Pembelajaran & Game Interaktif Berbasis Lingkungan Hidup - Kelas 7 SMP/MTs
-            </p>
-            <div class="max-w-3xl mx-auto bg-white/90 backdrop-blur-sm p-5 sm:p-6 rounded-3xl border-2 border-eco-100 border-b-4 border-b-eco-200 shadow-sm text-slate-700 text-sm sm:text-base leading-relaxed">
-                Pernahkah kamu memilah sampah organik dan anorganik, membuat pupuk kompos, menghitung pemakaian air hemat, atau menanam bibit di kebun Adiwiyata sekolah? Semua kegiatan pelestarian lingkungan tersebut memanfaatkan konsep rasio matematika! Mari pelajari perbandingan sambil menjaga kelestarian bumi kita.
-            </div>
-        </header>
-
-        <!-- Navigation Bento Cards -->
-        <main class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left mb-12">
-            <!-- Card 1: Materi -->
-            <a href="materi.html" class="group bg-white rounded-3xl p-6 sm:p-8 border-2 border-slate-200 border-b-8 border-b-slate-300 hover:border-eco-300 hover:border-b-eco-500 hover:-translate-y-1.5 active:translate-y-1 transition-all duration-150 shadow-sm flex flex-col justify-between">
+        <main class="navigation-grid">
+            <a href="materi.html" class="nav-card">
                 <div>
-                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform inline-block">📖</div>
-                    <h2 class="font-display font-extrabold text-xl sm:text-2xl text-slate-800 group-hover:text-eco-900 mb-2">Materi Lengkap</h2>
-                    <p class="text-xs sm:text-sm text-slate-500 leading-relaxed mb-6">
-                        Pelajari konsep rasio dua besaran, cara menyederhanakan rasio dengan FPB, dan perbandingan senilai/berbalik nilai berbasis konservasi lingkungan.
-                    </p>
+                    <h2>📖 Materi</h2>
+                    <p>Pelajari konsep rasio, perbandingan senilai, dan berbalik nilai dengan contoh penerapan gerakan Adiwiyata sekolah.</p>
                 </div>
-                <div class="font-display font-extrabold text-sm text-eco-700 flex items-center gap-1.5">
-                    <span>Pelajari Materi</span>
-                    <span class="group-hover:translate-x-1 transition-transform">➜</span>
-                </div>
+                <div><span class="btn-arrow">Pelajari Sekarang ➔</span></div>
             </a>
 
-            <!-- Card 2: Game (Featured) -->
-            <a href="game.html" class="group bg-gradient-to-b from-eco-50/80 to-white rounded-3xl p-6 sm:p-8 border-2 border-eco-300 border-b-8 border-b-eco-600 hover:border-eco-400 hover:border-b-eco-700 hover:-translate-y-1.5 active:translate-y-1 transition-all duration-150 shadow-md shadow-eco-500/10 flex flex-col justify-between relative overflow-hidden ring-2 ring-eco-200/50">
-                <span class="absolute top-4 right-4 bg-amber-200 text-amber-900 border border-amber-300 font-display font-extrabold text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-                    ⭐ GAME UNGGULAN
-                </span>
+            <a href="game.html" class="nav-card">
                 <div>
-                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform inline-block">🎮</div>
-                    <h2 class="font-display font-black text-xl sm:text-2xl text-eco-950 mb-2">Game Edukasi AI</h2>
-                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">
-                        Taklukkan 5 level misi pelestarian lingkungan dalam game interaktif modern <strong>"Pahlawan Hijau Adiwiyata"</strong> dengan sistem nyawa, timer, dan evaluasi soal!
-                    </p>
+                    <h2>🎮 Game</h2>
+                    <p>Asah kemampuanmu dan selesaikan misi lingkungan dalam game interaktif "Pahlawan Hijau Adiwiyata"!</p>
                 </div>
-                <div class="font-display font-black text-sm text-eco-800 flex items-center gap-1.5">
-                    <span>Mainkan Sekarang</span>
-                    <span class="group-hover:translate-x-1 transition-transform">🚀</span>
-                </div>
+                <div><span class="btn-arrow" style="background-color: var(--duo-blue); border-color: var(--duo-blue-shadow);">Mainkan Misi ➔</span></div>
             </a>
 
-            <!-- Card 3: Latihan -->
-            <a href="latihan.html" class="group bg-white rounded-3xl p-6 sm:p-8 border-2 border-slate-200 border-b-8 border-b-slate-300 hover:border-eco-300 hover:border-b-eco-500 hover:-translate-y-1.5 active:translate-y-1 transition-all duration-150 shadow-sm flex flex-col justify-between">
+            <a href="latihan.html" class="nav-card">
                 <div>
-                    <div class="text-4xl mb-4 group-hover:scale-110 transition-transform inline-block">✏️</div>
-                    <h2 class="font-display font-extrabold text-xl sm:text-2xl text-slate-800 group-hover:text-eco-900 mb-2">Uji Latihan</h2>
-                    <p class="text-xs sm:text-sm text-slate-500 leading-relaxed mb-6">
-                        Uji penguasaan konsep matematika kamu dengan bank soal latihan mandiri bertema aksi hijau sekolah Adiwiyata.
-                    </p>
+                    <h2>✏️ Latihan</h2>
+                    <p>Uji pemahamanmu dengan berbagai jenis soal latihan interaktif bertema kelestarian lingkungan sekolah.</p>
                 </div>
-                <div class="font-display font-extrabold text-sm text-eco-700 flex items-center gap-1.5">
-                    <span>Mulai Latihan</span>
-                    <span class="group-hover:translate-x-1 transition-transform">➜</span>
-                </div>
+                <div><span class="btn-arrow" style="background-color: var(--duo-yellow); border-color: var(--duo-yellow-shadow); color: #4b3c00;">Kerjakan Soal ➔</span></div>
             </a>
         </main>
 
-        <!-- Footer Identitas Pembuat -->
-        <footer class="text-center">
-            <div class="inline-flex items-center gap-3 bg-white/80 backdrop-blur-md px-6 py-3 rounded-full border border-slate-200 shadow-sm text-xs sm:text-sm flex-wrap justify-center">
-                <span class="font-display font-extrabold text-slate-800">👩‍🏫 Lilis Risma Putri, S.Pd.</span>
-                <span class="text-slate-300">&bull;</span>
-                <span class="text-slate-600 font-medium">MTs Negeri 3 Wonogiri</span>
-                <span class="text-slate-300">&bull;</span>
-                <span class="text-eco-700 font-extrabold">PGRI Cabang Slogohimo / Kab. Wonogiri</span>
-            </div>
+        <footer class="footer">
+            <p class="creator-name">Lilis Risma Putri, S.Pd.</p>
+            <p class="institution-name">MTs Negeri 3 Wonogiri</p>
         </footer>
 
     </div>
