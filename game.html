@@ -210,20 +210,23 @@
                         </p>
                     </div>
                     <button class="btn-bento-secondary !py-2 !px-4 text-xs" onclick="showSplashScreen()">
-                        <span>🏠 Kembali</span>
+                        <span>🏠 Beranda</span>
                     </button>
                 </div>
 
                 <!-- Tab Menu -->
                 <div class="flex gap-2 bg-slate-100 p-1.5 rounded-2xl mb-6 overflow-x-auto">
-                    <button class="tab-btn active flex-1 py-2.5 px-4 rounded-xl font-display font-bold text-xs sm:text-sm transition-all text-eco-900 bg-white shadow-sm border-b-2 border-eco-500" onclick="switchEduTab('tab-levels', this)">
-                        🗺️ Pilih Level Misi
+                    <button class="tab-btn active flex-1 py-2.5 px-3 rounded-xl font-display font-bold text-xs sm:text-sm transition-all text-eco-900 bg-white shadow-sm border-b-2 border-eco-500 whitespace-nowrap" onclick="switchEduTab('tab-levels', this)">
+                        🗺️ Level Misi
                     </button>
-                    <button class="tab-btn flex-1 py-2.5 px-4 rounded-xl font-display font-bold text-xs sm:text-sm transition-all text-slate-500 hover:text-slate-800" onclick="switchEduTab('tab-instructions', this)">
+                    <button class="tab-btn flex-1 py-2.5 px-3 rounded-xl font-display font-bold text-xs sm:text-sm transition-all text-slate-500 hover:text-slate-800 whitespace-nowrap" onclick="switchEduTab('tab-timer-config', this)">
+                        ⏱️ Pengaturan Waktu
+                    </button>
+                    <button class="tab-btn flex-1 py-2.5 px-3 rounded-xl font-display font-bold text-xs sm:text-sm transition-all text-slate-500 hover:text-slate-800 whitespace-nowrap" onclick="switchEduTab('tab-instructions', this)">
                         📋 Petunjuk & Kontrol
                     </button>
-                    <button class="tab-btn flex-1 py-2.5 px-4 rounded-xl font-display font-bold text-xs sm:text-sm transition-all text-slate-500 hover:text-slate-800" onclick="switchEduTab('tab-curriculum', this)">
-                        🎯 Capaian (CP Fase D)
+                    <button class="tab-btn flex-1 py-2.5 px-3 rounded-xl font-display font-bold text-xs sm:text-sm transition-all text-slate-500 hover:text-slate-800 whitespace-nowrap" onclick="switchEduTab('tab-curriculum', this)">
+                        🎯 Capaian (CP)
                     </button>
                 </div>
 
@@ -234,7 +237,7 @@
                         <div class="bento-card-tile bento-card-tile-active cursor-pointer hover:-translate-y-1" id="card-level-1" onclick="handleSelectLevel(1)">
                             <div class="flex justify-between items-center mb-3">
                                 <span class="bg-eco-100 text-eco-800 font-display font-extrabold text-xs px-2.5 py-1 rounded-lg">Level 1</span>
-                                <span id="stars-level-1" class="text-amber-500 font-bold text-sm">☆☆☆</span>
+                                <span id=\"stars-level-1\" class="text-amber-500 font-bold text-sm">☆☆☆</span>
                             </div>
                             <h4 class="font-display font-bold text-slate-800 text-base mb-1">Pengenalan Rasio</h4>
                             <p class="text-xs text-slate-500 leading-relaxed mb-4">Perbandingan pilah sampah, bibit pohon, dan takaran kompos.</p>
@@ -309,7 +312,76 @@
                     </div>
                 </div>
 
-                <!-- TAB 2: Petunjuk & Kontrol -->
+                <!-- TAB 2: PENGATURAN DURASI WAKTU REALISTIS & OTOMATIS KUMPULKAN -->
+                <div id="tab-timer-config" class="tab-pane hidden space-y-4">
+                    <div class="bg-white rounded-2xl p-5 border-2 border-eco-100 border-b-4 border-b-eco-200">
+                        <h3 class="font-display font-bold text-eco-900 text-base mb-2 flex items-center gap-2">
+                            <span>⏱️</span> Pengaturan Waktu Permainan (Sesuai Waktu Sebenarnya)
+                        </h3>
+                        <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
+                            Waktu dihitung menggunakan sinkronisasi waktu sebenarnya (<em>real clock timestamp</em>). 
+                            <strong>Jika waktu habis, lembar jawaban otomatis langsung dikumpulkan dan dinilai</strong>. 
+                            Pada 10 detik terakhir akan berbunyi suara peringatan hitung mundur, dan ketika waktu habis alarm buzzer akan berbunyi.
+                        </p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="timer-options-grid">
+                            <!-- Option 1: 180s (3 Minutes) - Recommended -->
+                            <div class="timer-option-card p-4 rounded-2xl border-2 border-eco-500 bg-eco-50/70 cursor-pointer transition-all" onclick="selectTimerDuration(180, this)">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="font-display font-extrabold text-eco-900 text-sm">⏱️ 180 Detik (3 Menit)</span>
+                                    <span class="bg-eco-200 text-eco-800 text-[10px] font-bold px-2 py-0.5 rounded-full">Rekomendasi Ujian</span>
+                                </div>
+                                <p class="text-xs text-slate-600">Standar pengerjaan 5 soal cerita (~36 detik per soal). Pas & menantang.</p>
+                            </div>
+
+                            <!-- Option 2: 300s (5 Minutes) -->
+                            <div class="timer-option-card p-4 rounded-2xl border-2 border-slate-200 bg-white hover:bg-slate-50 cursor-pointer transition-all" onclick="selectTimerDuration(300, this)">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="font-display font-extrabold text-slate-800 text-sm">🌿 300 Detik (5 Menit)</span>
+                                    <span class="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded-full">Santai & Teliti</span>
+                                </div>
+                                <p class="text-xs text-slate-600">Waktu leluasa 1 menit per butir soal untuk menghitung dan mencoret buram.</p>
+                            </div>
+
+                            <!-- Option 3: 120s (2 Minutes) -->
+                            <div class="timer-option-card p-4 rounded-2xl border-2 border-slate-200 bg-white hover:bg-slate-50 cursor-pointer transition-all" onclick="selectTimerDuration(120, this)">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="font-display font-extrabold text-slate-800 text-sm">⚡ 120 Detik (2 Menit)</span>
+                                    <span class="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded-full">Tantangan Cepat</span>
+                                </div>
+                                <p class="text-xs text-slate-600">Tantangan kecepatan kalkulasi rasio bagi kader berkecepatan tinggi.</p>
+                            </div>
+
+                            <!-- Option 4: 90s -->
+                            <div class="timer-option-card p-4 rounded-2xl border-2 border-slate-200 bg-white hover:bg-slate-50 cursor-pointer transition-all" onclick="selectTimerDuration(90, this)">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="font-display font-extrabold text-slate-800 text-sm">⏳ 90 Detik (1.5 Menit)</span>
+                                    <span class="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded-full">Mode Kilat</span>
+                                </div>
+                                <p class="text-xs text-slate-600">Uji ketangkasan rasio singkat dengan tekanan waktu nyata.</p>
+                            </div>
+
+                            <!-- Option 5: Unlimited -->
+                            <div class="timer-option-card p-4 rounded-2xl border-2 border-slate-200 bg-white hover:bg-slate-50 cursor-pointer transition-all sm:col-span-2" onclick="selectTimerDuration(0, this)">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="font-display font-extrabold text-slate-800 text-sm">♾️ Tanpa Batas Waktu</span>
+                                    <span class="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded-full">Latihan Bebas</span>
+                                </div>
+                                <p class="text-xs text-slate-600">Bebas dari hitung mundur, fokus penuh memahami konsep perbandingan matematika.</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-700 flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center gap-2">
+                                <span>💡</span>
+                                <span>Pilihan aktif: <strong id="current-timer-selection-text" class="text-eco-700">180 Detik (3 Menit) - Otomatis Kumpulkan</strong></span>
+                            </div>
+                            <span class="text-[11px] text-slate-500 font-medium">🔔 Fitur: Bunyi 10s akhir & alarm habis</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 3: Petunjuk & Kontrol -->
                 <div id="tab-instructions" class="tab-pane hidden space-y-4">
                     <div class="bg-eco-50/70 rounded-2xl p-5 border border-eco-200">
                         <h3 class="font-display font-bold text-eco-900 text-base mb-3 flex items-center gap-2">
@@ -317,20 +389,21 @@
                         </h3>
                         <ul class="text-slate-700 text-sm space-y-2 list-disc list-inside">
                             <li><strong>Sistem Nyawa:</strong> Setiap level dibekali <strong>3 Kesempatan / Nyawa (❤️❤️❤️)</strong>. Jawaban salah memotong 1 nyawa.</li>
-                            <li><strong>Sistem Waktu:</strong> Diberikan waktu <strong>90 detik</strong> untuk menyelesaikan 5 butir soal di setiap level.</li>
+                            <li><strong>Sistem Otomatis Kumpulkan:</strong> Ketika waktu habis, seluruh soal yang belum selesai otomatis dikumpulkan dan langsung dievaluasi nilainya.</li>
+                            <li><strong>Peringatan Suara:</strong> Pada 10 detik terakhir akan berbunyi beep hitung mundur, dan ketika waktu habis alarm buzzer akan berbunyi kencang.</li>
                             <li><strong>Format Isian:</strong>
                                 <span class="block ml-6 text-xs text-slate-600 mt-1">
                                     • Level 1 & 2: Masukkan format rasio dua nilai <code>a : b</code> (contoh: <code>2:3</code>).<br>
                                     • Level 3, 4, 5: Masukkan nilai bilangan riil (contoh: <code>25</code>).
                                 </span>
                             </li>
-                            <li><strong>Keyboard Shortcut:</strong> Tekan tombol <kbd class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-mono text-xs font-bold">Enter</kbd> untuk verifikasi jawaban instan.</li>
+                            <li><strong>Keyboard Shortcut:</strong> Tekan tombol <kbd class="bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-mono text-xs font-bold">Enter</kbd> untuk verifikasi jawaban atau lanjut.</li>
                             <li><strong>Passing Grade:</strong> Raih minimal <strong>80 Poin</strong> untuk membuka level tantangan berikutnya.</li>
                         </ul>
                     </div>
                 </div>
 
-                <!-- TAB 3: Capaian Pembelajaran (CP Fase D) -->
+                <!-- TAB 4: Capaian Pembelajaran (CP Fase D) -->
                 <div id="tab-curriculum" class="tab-pane hidden space-y-4">
                     <div class="bg-sky-50/70 rounded-2xl p-5 border border-sky-200">
                         <h3 class="font-display font-bold text-sky-950 text-base mb-2 flex items-center gap-2">
@@ -353,7 +426,7 @@
             <section id="screen-gameplay" class="game-screen">
                 
                 <!-- HUD Status: Level, Nyawa, Timer, Skor, Pause -->
-                <div class="bg-slate-50 rounded-2xl p-3 sm:p-4 border-2 border-slate-200 border-b-4 border-b-slate-300 mb-6 flex flex-wrap items-center justify-between gap-3 shadow-sm">
+                <div class="bg-slate-50 rounded-2xl p-3 sm:p-4 border-2 border-slate-200 border-b-4 border-b-slate-300 mb-5 flex flex-wrap items-center justify-between gap-3 shadow-sm">
                     <div class="flex items-center gap-2">
                         <span class="text-xs font-bold text-slate-400 uppercase">Misi:</span>
                         <span id="hud-level-title" class="font-display font-black text-eco-800 text-sm sm:text-base">Level 1</span>
@@ -364,9 +437,9 @@
                         ❤️❤️❤️
                     </div>
 
-                    <!-- Timer 90 Detik -->
-                    <div id="hud-timer" class="bg-white border-2 border-slate-200 px-3.5 py-1 rounded-xl font-mono font-bold text-sm sm:text-base flex items-center gap-1.5 shadow-inner">
-                        <span>⏳</span> <span id="timer-text">01:30</span>
+                    <!-- Timer Real Time (Synchronized with Date.now()) -->
+                    <div id="hud-timer" class="bg-white border-2 border-slate-200 px-3.5 py-1 rounded-xl font-mono font-bold text-sm sm:text-base flex items-center gap-1.5 shadow-inner transition-colors duration-200" title="Waktu Tersisa Misi">
+                        <span id="timer-icon">⏳</span> <span id="timer-text">03:00</span>
                     </div>
 
                     <!-- Skor Berjalan -->
@@ -380,9 +453,20 @@
                     </button>
                 </div>
 
-                <!-- Progress Bar Soal (1 of 5) -->
-                <div class="w-full bg-slate-100 rounded-full h-2 mb-6 overflow-hidden">
-                    <div id="question-progress-bar" class="bg-eco-500 h-2 rounded-full transition-all duration-300" style="width: 20%;"></div>
+                <!-- Progress Bar Soal & Visual Timer Bar -->
+                <div class="space-y-1.5 mb-6">
+                    <div class="flex justify-between items-center text-[11px] font-bold text-slate-400">
+                        <span>PROGRES MISI TANTANGAN</span>
+                        <span id="timer-indicator-label">SISA WAKTU: <span id="timer-label-text" class="text-eco-700 font-mono font-extrabold">03:00</span></span>
+                    </div>
+                    <!-- Question Step Bar -->
+                    <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                        <div id="question-progress-bar" class="bg-eco-500 h-2 rounded-full transition-all duration-300" style="width: 20%;"></div>
+                    </div>
+                    <!-- Real-Time Countdown Bar -->
+                    <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden" id="timer-bar-container">
+                        <div id="question-timer-bar" class="bg-amber-400 h-1.5 rounded-full transition-all duration-200" style="width: 100%;"></div>
+                    </div>
                 </div>
 
                 <!-- Area Interaksi Soal -->
@@ -421,7 +505,7 @@
                         </button>
                     </div>
 
-                    <!-- Direct Feedback Banner -->
+                    <!-- Direct Feedback Banner (Timer terjeda di sini agar siswa tenang belajar) -->
                     <div id="feedback-banner" class="hidden mt-5 p-4 rounded-2xl border-2 text-sm text-left">
                         <h4 id="feedback-title" class="font-display font-bold text-base mb-1 flex items-center gap-2">
                             <span id="feedback-icon">✅</span> Luar Biasa!
@@ -516,7 +600,10 @@
                 <p><strong>Selamat datang di game Pahlawan Hijau Adiwiyata!</strong></p>
                 <ul class="list-disc list-inside space-y-1.5">
                     <li>Selesaikan 5 tantangan soal matematika per level dengan tepat.</li>
-                    <li>Kamu memiliki <strong>3 nyawa (❤️❤️❤️)</strong> dan <strong>90 detik</strong> waktu bermain.</li>
+                    <li>Kamu memiliki <strong>3 nyawa (❤️❤️❤️)</strong> untuk setiap sesi permainan level.</li>
+                    <li><strong>Waktu Sebenarnya:</strong> Timer berjalan akurat sesuai detik jam nyata (<em>timestamp based</em>).</li>
+                    <li><strong>Otomatis Kumpulkan:</strong> Ketika waktu habis, lembar jawaban otomatis langsung dikumpulkan dan dinilai!</li>
+                    <li><strong>Peringatan Suara:</strong> Pada 10 detik terakhir akan berbunyi beep hitung mundur, dan ketika waktu habis alarm buzzer akan berbunyi.</li>
                     <li>Jawaban Level 1 & 2 berformat rasio <code>a : b</code> (contoh <code>3:4</code>).</li>
                     <li>Jawaban Level 3, 4, & 5 berupa angka tunggal (contoh <code>12</code>).</li>
                     <li>Kumpulkan nilai minimal <strong>80 Poin</strong> untuk membuka level selanjutnya!</li>
@@ -586,6 +673,26 @@
             },
             click() {
                 this.playTone(880, 'sine', 0.05, 0.08);
+            },
+            countdownTick(sec) {
+                if (!this.enabled) return;
+                // Frekuensi nada beep naik bertahap dari detik 10 ke detik 1 (500Hz ke 860Hz)
+                const freq = 500 + (10 - sec) * 40;
+                this.playTone(freq, 'sine', 0.09, 0.22);
+            },
+            alarm() {
+                if (!this.enabled) return;
+                // Alarm darurat beruntun saat waktu habis (buzzer sirene khas cerdas cermat)
+                const beeps = [
+                    { f: 880, d: 0.14, t: 0 },
+                    { f: 659, d: 0.14, t: 150 },
+                    { f: 880, d: 0.14, t: 300 },
+                    { f: 659, d: 0.14, t: 450 },
+                    { f: 987, d: 0.30, t: 600 }
+                ];
+                beeps.forEach(b => {
+                    setTimeout(() => this.playTone(b.f, 'sawtooth', b.d, 0.3), b.t);
+                });
             }
         };
 
@@ -642,7 +749,7 @@
         };
 
         // ----------------------------------------------------
-        // STATE MANAJEMEN
+        // STATE MANAJEMEN & ENGINE WAKTU SEBENARNYA (TIMESTAMP BASED)
         // ----------------------------------------------------
         let currentStudentName = "";
         let currentLevel = 1;
@@ -651,11 +758,18 @@
         let sessionQuestions = [];
         let sessionScore = 0;
         let sessionLives = 3;
-        let sessionTimer = 90;
-        let timerInterval = null;
         let isGamePaused = false;
         let currentQuestionAnswered = false;
         let sessionEvaluations = [];
+
+        // Pengaturan Durasi Waktu Sebenarnya (Default: 180 detik / 3 menit per level)
+        let configuredTimerDuration = 180; // 0 = unlimited, >0 = detik per sesi level
+        let timerStartTimestamp = 0;
+        let timerRemainingSeconds = 180;
+        let timerRunning = false;
+        let timerPausedAt = 0;
+        let timerInterval = null;
+        let lastBeepedSecond = -1;
 
         function switchScreen(screenId) {
             document.querySelectorAll('.game-screen').forEach(s => s.classList.remove('active'));
@@ -665,7 +779,7 @@
         }
 
         function showSplashScreen() {
-            clearInterval(timerInterval);
+            stopTimerEngine();
             switchScreen('screen-splash');
         }
 
@@ -676,17 +790,50 @@
             }
             document.getElementById('display-student-name-edu').textContent = currentStudentName;
             loadPlayerProgress();
+            syncTimerSettingsUI();
             switchScreen('screen-education');
         }
 
         function switchEduTab(tabId, el) {
             document.querySelectorAll('.tab-pane').forEach(p => p.classList.add('hidden'));
             document.querySelectorAll('.tab-btn').forEach(b => {
-                b.className = 'tab-btn flex-1 py-2.5 px-4 rounded-xl font-display font-bold text-xs sm:text-sm transition-all text-slate-500 hover:text-slate-800';
+                b.className = 'tab-btn flex-1 py-2.5 px-3 rounded-xl font-display font-bold text-xs sm:text-sm transition-all text-slate-500 hover:text-slate-800 whitespace-nowrap';
             });
             document.getElementById(tabId).classList.remove('hidden');
-            el.className = 'tab-btn active flex-1 py-2.5 px-4 rounded-xl font-display font-bold text-xs sm:text-sm transition-all text-eco-900 bg-white shadow-sm border-b-2 border-eco-500';
+            el.className = 'tab-btn active flex-1 py-2.5 px-3 rounded-xl font-display font-bold text-xs sm:text-sm transition-all text-eco-900 bg-white shadow-sm border-b-2 border-eco-500 whitespace-nowrap';
             SoundFX.click();
+        }
+
+        function selectTimerDuration(seconds, element) {
+            configuredTimerDuration = seconds;
+            localStorage.setItem('adiwiyata_timer_duration', seconds.toString());
+            
+            // Highlight card
+            document.querySelectorAll('.timer-option-card').forEach(card => {
+                card.className = "timer-option-card p-4 rounded-2xl border-2 border-slate-200 bg-white hover:bg-slate-50 cursor-pointer transition-all";
+            });
+            if (element) {
+                element.className = "timer-option-card p-4 rounded-2xl border-2 border-eco-500 bg-eco-50/70 cursor-pointer transition-all";
+            }
+
+            const labelElem = document.getElementById('current-timer-selection-text');
+            if (labelElem) {
+                if (seconds === 0) labelElem.textContent = "Tanpa Batas Waktu (Mode Latihan Bebas)";
+                else labelElem.textContent = `${seconds} Detik (${Math.round(seconds/60)} Menit) - Otomatis Kumpulkan`;
+            }
+            SoundFX.click();
+        }
+
+        function syncTimerSettingsUI() {
+            const saved = localStorage.getItem('adiwiyata_timer_duration');
+            if (saved !== null) {
+                configuredTimerDuration = parseInt(saved);
+            }
+            const labelElem = document.getElementById('current-timer-selection-text');
+            if (labelElem) {
+                if (configuredTimerDuration === 0) labelElem.textContent = "Tanpa Batas Waktu (Mode Latihan Bebas)";
+                else labelElem.textContent = `${configuredTimerDuration} Detik (${Math.round(configuredTimerDuration/60)} Menit) - Otomatis Kumpulkan`;
+            }
         }
 
         function openInstructionsModal() {
@@ -760,11 +907,11 @@
         function startLevelGameplay() {
             sessionScore = 0;
             sessionLives = 3;
-            sessionTimer = 90;
             currentQuestionIndex = 0;
             sessionEvaluations = [];
             isGamePaused = false;
             currentQuestionAnswered = false;
+            lastBeepedSecond = -1;
 
             const bank = questionsDatabase[`level${currentLevel}`] || [];
             sessionQuestions = shuffleArray([...bank]).slice(0, 5);
@@ -772,11 +919,12 @@
             document.getElementById('hud-level-title').textContent = `Level ${currentLevel}`;
             document.getElementById('hud-score').textContent = sessionScore;
             updateLivesHUD();
-            updateTimerHUD();
 
             switchScreen('screen-gameplay');
+            
+            // Inisialisasi Timer Level Waktu Sebenarnya
+            initLevelTimer();
             loadQuestionUI();
-            startTimer();
             SoundFX.click();
         }
 
@@ -788,48 +936,141 @@
             document.getElementById('hud-lives').textContent = hearts;
         }
 
-        function updateTimerHUD() {
-            const mins = Math.floor(sessionTimer / 60);
-            const secs = sessionTimer % 60;
-            const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-            const timerElem = document.getElementById('hud-timer');
-            document.getElementById('timer-text').textContent = formatted;
+        // ----------------------------------------------------
+        // LOGIKA TIMER SEBENARNYA (SINKRON DENGAN Date.now())
+        // OTOMATIS KUMPULKAN KETIKA HABIS + SUARA 10S & ALARM
+        // ----------------------------------------------------
+        function initLevelTimer() {
+            stopTimerEngine();
+            lastBeepedSecond = -1;
 
-            if (sessionTimer <= 15) {
-                timerElem.className = "bg-rose-100 text-rose-700 border-2 border-rose-300 px-3.5 py-1 rounded-xl font-mono font-bold text-sm sm:text-base flex items-center gap-1.5 animate-pulse";
-            } else {
-                timerElem.className = "bg-white border-2 border-slate-200 px-3.5 py-1 rounded-xl font-mono font-bold text-sm sm:text-base flex items-center gap-1.5 shadow-inner";
+            if (configuredTimerDuration <= 0) {
+                document.getElementById('hud-timer').className = "bg-white border-2 border-slate-200 px-3.5 py-1 rounded-xl font-mono font-bold text-sm sm:text-base flex items-center gap-1.5 shadow-inner";
+                document.getElementById('timer-text').textContent = "♾️ Bebas";
+                document.getElementById('timer-label-text').textContent = "Bebas Waktu";
+                document.getElementById('question-timer-bar').style.width = "100%";
+                return;
             }
+
+            timerRemainingSeconds = configuredTimerDuration;
+            timerStartTimestamp = Date.now();
+            timerRunning = true;
+            timerPausedAt = 0;
+            updateTimerDisplay(timerRemainingSeconds);
+
+            startTimerInterval();
         }
 
-        function startTimer() {
+        function startTimerInterval() {
             clearInterval(timerInterval);
             timerInterval = setInterval(() => {
-                if (isGamePaused) return;
-                sessionTimer--;
-                updateTimerHUD();
+                if (!timerRunning || isGamePaused) return;
 
-                if (sessionTimer <= 0) {
-                    clearInterval(timerInterval);
-                    handleTimeOut();
+                const elapsedSeconds = Math.floor((Date.now() - timerStartTimestamp) / 1000);
+                timerRemainingSeconds = Math.max(0, configuredTimerDuration - elapsedSeconds);
+                updateTimerDisplay(timerRemainingSeconds);
+
+                // Suara peringatan pada 10 detik terakhir (10 s.d. 1)
+                if (timerRemainingSeconds <= 10 && timerRemainingSeconds > 0) {
+                    if (timerRemainingSeconds !== lastBeepedSecond) {
+                        lastBeepedSecond = timerRemainingSeconds;
+                        SoundFX.countdownTick(timerRemainingSeconds);
+                    }
                 }
-            }, 1000);
+
+                // KETIKA TIMER TEPAT HABIS:
+                // 1. Suara Alarm Buzzer
+                // 2. Langsung kumpulkan seluruh jawaban otomatis!
+                if (timerRemainingSeconds <= 0) {
+                    stopTimerEngine();
+                    SoundFX.alarm();
+                    autoCollectAndFinishLevel();
+                }
+            }, 200);
+        }
+
+        function stopTimerEngine() {
+            timerRunning = false;
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+
+        function pauseTimerDuringFeedback() {
+            if (!timerRunning) return;
+            timerRunning = false;
+            clearInterval(timerInterval);
+        }
+
+        function resumeTimerAfterFeedback() {
+            if (configuredTimerDuration <= 0) return;
+            // Sinkronkan kembali timerStartTimestamp agar durasi membaca tidak memotong waktu ujian
+            timerStartTimestamp = Date.now() - ((configuredTimerDuration - timerRemainingSeconds) * 1000);
+            timerRunning = true;
+            startTimerInterval();
+        }
+
+        function updateTimerDisplay(remainingSecs) {
+            const mins = Math.floor(remainingSecs / 60);
+            const secs = remainingSecs % 60;
+            const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+            const timerElem = document.getElementById('hud-timer');
+            const timerText = document.getElementById('timer-text');
+            const labelText = document.getElementById('timer-label-text');
+            const timerBar = document.getElementById('question-timer-bar');
+
+            if (timerText) timerText.textContent = formatted;
+            if (labelText) labelText.textContent = formatted;
+
+            if (timerBar && configuredTimerDuration > 0) {
+                const pct = (remainingSecs / configuredTimerDuration) * 100;
+                timerBar.style.width = `${pct}%`;
+                if (remainingSecs <= 10) {
+                    timerBar.className = "bg-rose-600 h-1.5 rounded-full transition-all duration-200 animate-pulse";
+                } else if (remainingSecs <= 20) {
+                    timerBar.className = "bg-rose-500 h-1.5 rounded-full transition-all duration-200";
+                } else {
+                    timerBar.className = "bg-amber-400 h-1.5 rounded-full transition-all duration-200";
+                }
+            }
+
+            if (configuredTimerDuration > 0) {
+                if (remainingSecs <= 10) {
+                    timerElem.className = "bg-rose-100 text-rose-700 border-2 border-rose-400 px-3.5 py-1 rounded-xl font-mono font-black text-sm sm:text-base flex items-center gap-1.5 animate-pulse shadow-md";
+                } else if (remainingSecs <= 20) {
+                    timerElem.className = "bg-rose-50 text-rose-700 border-2 border-rose-300 px-3.5 py-1 rounded-xl font-mono font-bold text-sm sm:text-base flex items-center gap-1.5";
+                } else {
+                    timerElem.className = "bg-white border-2 border-slate-200 px-3.5 py-1 rounded-xl font-mono font-bold text-sm sm:text-base flex items-center gap-1.5 shadow-inner";
+                }
+            }
         }
 
         function pauseGame() {
             isGamePaused = true;
+            if (timerRunning) {
+                timerPausedAt = Date.now();
+                clearInterval(timerInterval);
+            }
             document.getElementById('pause-modal').classList.remove('hidden');
             document.getElementById('pause-modal').classList.add('flex');
             SoundFX.click();
         }
+
         function resumeGame() {
             isGamePaused = false;
+            if (timerRunning && timerPausedAt > 0) {
+                const pausedDuration = Date.now() - timerPausedAt;
+                timerStartTimestamp += pausedDuration;
+                timerPausedAt = 0;
+                startTimerInterval();
+            }
             document.getElementById('pause-modal').classList.add('hidden');
             document.getElementById('pause-modal').classList.remove('flex');
             SoundFX.click();
         }
+
         function quitGameplayToMenu() {
-            clearInterval(timerInterval);
+            stopTimerEngine();
             document.getElementById('pause-modal').classList.add('hidden');
             document.getElementById('pause-modal').classList.remove('flex');
             showEducationScreen();
@@ -840,7 +1081,7 @@
             currentQuestionAnswered = false;
             const q = sessionQuestions[currentQuestionIndex];
             
-            // Progress Bar
+            // Progress Bar Soal (1 to 5)
             const pct = ((currentQuestionIndex + 1) / sessionQuestions.length) * 100;
             document.getElementById('question-progress-bar').style.width = `${pct}%`;
 
@@ -850,7 +1091,7 @@
             const tags = ['🍂 Kompos Organik', '🌱 Bibit Nursery', '💧 Konservasi Air', '♻️ Bank Sampah', '☀️ Panel Surya'];
             document.getElementById('question-context-tag').textContent = tags[(currentQuestionIndex + currentLevel) % tags.length];
 
-            // Reset banners & inputs
+            // Reset banner & tombol
             document.getElementById('feedback-banner').className = 'hidden mt-5 p-4 rounded-2xl border-2 text-sm text-left';
             document.getElementById('next-action-wrapper').classList.add('hidden');
             document.getElementById('btn-submit-answer').classList.remove('hidden');
@@ -877,6 +1118,9 @@
                 singleInp.disabled = false;
                 setTimeout(() => singleInp.focus(), 120);
             }
+
+            // Lanjutkan timer jika sebelumnya terjeda saat membaca pembahasan
+            resumeTimerAfterFeedback();
         }
 
         function submitCurrentAnswer() {
@@ -901,6 +1145,9 @@
             }
 
             currentQuestionAnswered = true;
+
+            // Hentikan timer sementara saat siswa membaca pembahasan
+            pauseTimerDuringFeedback();
 
             let isCorrect = false;
             if (currentLevel === 1) {
@@ -959,36 +1206,72 @@
             }
         }
 
-        function handleTimeOut() {
-            if (currentQuestionAnswered) return;
-            sessionLives--;
-            updateLivesHUD();
-            SoundFX.incorrect();
+        // ----------------------------------------------------
+        // FITUR UTAMA: JIKA TIMER HABIS, LANGSUNG KUMPULKAN!
+        // ----------------------------------------------------
+        function autoCollectAndFinishLevel() {
+            stopTimerEngine();
+            SoundFX.alarm();
 
-            const q = sessionQuestions[currentQuestionIndex];
-            sessionEvaluations.push({
-                question: q.q,
-                userAnswer: "Waktu Habis",
-                correctAnswer: q.a,
-                isCorrect: false,
-                explanation: q.exp || "Waktu pengerjaan soal telah habis."
-            });
+            // 1. Kumpulkan soal aktif saat ini
+            if (!currentQuestionAnswered && currentQuestionIndex < sessionQuestions.length) {
+                const q = sessionQuestions[currentQuestionIndex];
+                let userAns = "";
 
-            const banner = document.getElementById('feedback-banner');
-            banner.className = 'mt-5 p-4 rounded-2xl border-2 border-rose-300 bg-rose-50 text-rose-900 text-sm text-left';
-            document.getElementById('feedback-title').innerHTML = '<span>⏰</span> Waktu Habis!';
-            document.getElementById('feedback-explanation').innerHTML = `<strong>Kunci:</strong> ${q.a}. <br>${q.exp}`;
-            banner.classList.remove('hidden');
+                if (currentLevel <= 2) {
+                    const p1 = document.getElementById('input-ratio-part1').value.trim();
+                    const p2 = document.getElementById('input-ratio-part2').value.trim();
+                    if (p1 && p2) userAns = `${p1}:${p2}`;
+                } else {
+                    userAns = document.getElementById('input-single-val').value.trim();
+                }
 
-            document.querySelectorAll('#main-question-card input').forEach(inp => inp.disabled = true);
-            document.getElementById('btn-submit-answer').classList.add('hidden');
-            document.getElementById('next-action-wrapper').classList.remove('hidden');
+                let isCorrect = false;
+                if (userAns) {
+                    if (currentLevel === 1) {
+                        const uParts = userAns.split(':');
+                        const cParts = q.a.split(':');
+                        if (uParts.length === 2 && cParts.length === 2 && parseFloat(uParts[1]) !== 0) {
+                            isCorrect = (parseFloat(uParts[0]) / parseFloat(uParts[1])) === (parseFloat(cParts[0]) / parseFloat(cParts[1]));
+                        }
+                    } else {
+                        isCorrect = userAns.replace(/\s+/g, '') === q.a.replace(/\s+/g, '');
+                    }
+                    if (isCorrect) sessionScore += 20;
+                } else {
+                    userAns = "Waktu Habis (Tidak Terjawab)";
+                }
 
-            if (sessionLives <= 0) {
-                setTimeout(() => {
-                    handleGameOver("Waktu dan nyawa telah habis. Jangan putus asa, coba lagi ya!");
-                }, 1000);
+                sessionEvaluations.push({
+                    question: q.q,
+                    userAnswer: userAns,
+                    correctAnswer: q.a,
+                    isCorrect: isCorrect,
+                    explanation: q.exp || "Perbandingan proporsional sesuai kaidah matematika."
+                });
+                sendLogToSheet(q.q, userAns, isCorrect ? 'Benar' : 'Waktu Habis', isCorrect ? 20 : 0);
             }
+
+            // 2. Kumpulkan seluruh sisa butir soal yang belum sempat dikerjakan
+            for (let i = currentQuestionIndex + 1; i < sessionQuestions.length; i++) {
+                const remQ = sessionQuestions[i];
+                sessionEvaluations.push({
+                    question: remQ.q,
+                    userAnswer: "Waktu Habis (Belum Sempat Dikerjakan)",
+                    correctAnswer: remQ.a,
+                    isCorrect: false,
+                    explanation: remQ.exp || "Perbandingan proporsional sesuai kaidah matematika."
+                });
+                sendLogToSheet(remQ.q, "Waktu Habis", "Waktu Habis", 0);
+            }
+
+            currentQuestionAnswered = true;
+
+            // 3. Langsung tampilkan Halaman Evaluasi & Hasil
+            setTimeout(() => {
+                const isVictory = sessionScore >= 80;
+                showResultScreen(isVictory, "⏰ <strong>Waktu Pengerjaan Habis!</strong> Seluruh lembar kerja kamu telah <strong>langsung dikumpulkan</strong> dan dievaluasi secara otomatis.");
+            }, 800);
         }
 
         function proceedToNextQuestion() {
@@ -1000,18 +1283,19 @@
             if (currentQuestionIndex < sessionQuestions.length) {
                 loadQuestionUI();
             } else {
+                stopTimerEngine();
                 finishLevel();
             }
             SoundFX.click();
         }
 
         function handleGameOver(msg) {
-            clearInterval(timerInterval);
+            stopTimerEngine();
             showResultScreen(false, msg);
         }
 
         function finishLevel() {
-            clearInterval(timerInterval);
+            stopTimerEngine();
             const isVictory = sessionScore >= 80;
             showResultScreen(isVictory);
         }
@@ -1038,7 +1322,7 @@
             if (isVictory) {
                 trophy.textContent = '🏆';
                 headline.textContent = `Misi Level ${currentLevel} Sukses!`;
-                subtext.innerHTML = `Selamat, <strong class="text-eco-700">${currentStudentName}</strong>! Aksimu berhasil menyelamatkan lingkungan sekolah.`;
+                subtext.innerHTML = customMsg || `Selamat, <strong class="text-eco-700">${currentStudentName}</strong>! Aksimu berhasil menyelamatkan lingkungan sekolah.`;
                 predicateElem.textContent = sessionScore === 100 ? "🌟 Kader Adiwiyata Paripurna" : "🌿 Pahlawan Lingkungan Hebat";
                 SoundFX.victory();
 
@@ -1050,8 +1334,8 @@
                 }
             } else {
                 trophy.textContent = '🌱';
-                headline.textContent = `Perlu Sedikit Latihan Lagi!`;
-                subtext.textContent = customMsg || `Skor belum mencapai batas tuntas 80. Pelajari pembahasan di bawah dan coba kembali!`;
+                headline.textContent = `Lembar Misi Selesai / Terkumpul`;
+                subtext.innerHTML = customMsg || `Skor belum mencapai batas tuntas 80. Pelajari pembahasan di bawah dan coba kembali!`;
                 predicateElem.textContent = "Kader Muda Bertumbuh";
             }
 
@@ -1094,6 +1378,7 @@
         }
 
         function restartCurrentLevel() {
+            stopTimerEngine();
             startLevelGameplay();
         }
 
@@ -1193,6 +1478,7 @@
                 SoundFX.enabled = false;
                 document.getElementById('btn-sound-toggle').textContent = '🔇';
             }
+            syncTimerSettingsUI();
         });
     </script>
 </body>
