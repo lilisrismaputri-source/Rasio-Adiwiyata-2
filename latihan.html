@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soal Latihan Rasio Adiwiyata</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #f1f8e9; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { background-color: white; padding: 40px; border-radius: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); width: 90%; max-width: 700px; text-align: center; border-top: 5px solid #2e7d32; }
+        h1, h2 { color: #1b5e20; }
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .live-score-info {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #1b5e20;
+            background-color: #e8f5e9;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+        .question-box { margin-top: 20px; text-align: left; }
+        .answer-options div { margin: 10px 0; }
+        input[type="text"] { width: 95%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; margin-top: 10px; font-family: 'Poppins', sans-serif; }
+        button { padding: 12px 25px; background-color: #2e7d32; color: white; border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.3s; margin-top: 20px; font-family: 'Poppins', sans-serif; }
+        button:hover { background-color: #1b5e20; }
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
+        .feedback { margin-top: 15px; font-weight: bold; min-height: 24px; }
+        .feedback.correct { color: #2e7d32; }
+        .feedback.incorrect { color: #c62828; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="start-screen">
+            <h1>🌱 Latihan Soal Rasio Adiwiyata 🌱</h1>
+            <p>Masukkan nama lengkapmu untuk memulai uji pemahaman lingkungan.</p>
+            <input type="text" id="student-name" placeholder="Nama Lengkap">
+            <button onclick="startQuiz()">Mulai Latihan</button>
+        </div>
+
+        <div id="quiz-screen" class="hidden">
+            <div class="quiz-header">
+                <h2 id="question-type-title"></h2>
+                <div class="live-score-info">Skor: <span id="live-score">0</span></div>
+            </div>
+            <div class="question-box">
+                <p id="question-text"></p>
+                <div id="answer-options"></div>
+            </div>
+            <div id="feedback" class="feedback"></div>
+            <button id="submit-btn" onclick="checkAnswer()">Jawab</button>
+            <button id="next-btn" class="hidden" onclick="nextQuestion()">Lanjut</button>
+        </div>
+
+        <div id="end-screen" class="hidden">
+            <h1>🎉 Latihan Selesai!</h1>
+            <p>Kerja bagus kader Adiwiyata, <span id="final-student-name"></span>!</p>
+            <p>Skor Akhirmu: <strong id="final-score">0</strong> dari 100</p>
+            <a href="index.html"><button>Kembali ke Halaman Utama</button></a>
+        </div>
+    </div>
+
+    <script>
+        // PENTING: Ganti dengan URL Google Apps Script Anda untuk LATIHAN
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwUh2P2NubCb-hF4j8L9GScRKj-FerNkiuSi9N7HPsQvaeypOKUUpjiC_CSWGpi7V5V/exec';
+
+        let studentName = '';
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let quizQuestions = [];
+        let studentAnswers = [];
+        let totalQuestions = 0;
+
+        const allQuestions = {
+            pg: [
+                 { q: "Bank sampah sekolah mengumpulkan 12 kg sampah organik dan 18 kg sampah anorganik. Bentuk sederhana dari rasio sampah organik terhadap anorganik adalah...", options: ["2 : 3", "3 : 4", "1 : 2", "4 : 5"], a: "2 : 3" },
+                 { q: "Rasio 250 gram pupuk cair terhadap 1 kg kompos padat adalah...", options: ["1 : 4", "1 : 2", "1 : 5", "1 : 10"], a: "1 : 4" },
+                 { q: "Jika rasio pemakaian pupuk A : B = 2 : 5 dan volume pupuk A adalah 10 liter, maka volume pupuk B adalah...", options: ["20", "25", "30", "15"], a: "25" },
+                 { q: "Sebuah denah kebun TOGA Adiwiyata memiliki skala 1 : 200.000. Jika panjang taman pada denah 4 cm, panjang sebenarnya adalah...", options: ["8 km", "80 km", "2 km", "20 km"], a: "8 km" },
+                 { q: "Perbandingan bibit pohon mahoni dan puring di rumah hijau adalah 3 : 7. Jika jumlah bibit 50, selisih bibit mahoni dan puring adalah...", options: ["10", "15", "20", "25"], a: "20" },
+                 { q: "Hasil penjualan sampah daur ulang kelas 7A dan 7B berjumlah Rp 300.000 dengan perbandingan 2 : 3. Berapa uang tabungan sampah kelas 7B?", options: ["Rp 120.000", "Rp 150.000", "Rp 180.000", "Rp 200.000"], a: "Rp 180.000" },
+                 { q: "Tim A Adiwiyata dapat membersihkan kebun dalam 6 hari, Tim B dalam 3 hari. Jika mereka bekerja bersama, pembersihan selesai dalam... hari", options: ["1", "2", "3", "4"], a: "2" },
+                 { q: "Penyiraman otomatis dengan kecepatan debit 60 liter/jam menempuh waktu 3 jam untuk menguras tangki air hujan. Jika debit dinaikkan menjadi 90 liter/jam, waktu yang dibutuhkan adalah... jam", options: ["1.5", "2", "2.5", "3"], a: "2" },
+                 { q: "Persediaan pupuk cair untuk 20 pot tanaman TOGA habis dalam 5 hari. Jika tanaman dikurangi menjadi 15 pot, persediaan pupuk akan habis dalam... hari", options: ["6", "6.67", "7", "7.5"], a: "6.67" },
+                 { q: "Untuk membangun green house Adiwiyata, 10 pekerja membutuhkan waktu 60 hari. Agar pembangunan selesai dalam 40 hari, jumlah pekerja yang dibutuhkan adalah...", options: ["12", "15", "18", "20"], a: "15" },
+            ],
+            pgk: [
+                { q: "Rasio 4 kg dedaunan : 6 kg sampah dapur senilai dengan...", options: ["2 : 3", "6 : 9", "8 : 10", "1 : 1.5"], a: ["2 : 3", "6 : 9", "1 : 1.5"] },
+                { q: "Manakah dari berikut ini yang merupakan contoh perbandingan senilai dalam Adiwiyata?", options: ["Jumlah bibit dan luas lahan yang dibutuhkan", "Kecepatan penyiraman dan waktu bak air habis", "Jumlah pekerja kerja bakti dan waktu pembersihan", "Jumlah sampah daur ulang dan uang tabungan bank sampah"], a: ["Jumlah bibit dan luas lahan yang dibutuhkan", "Jumlah sampah daur ulang dan uang tabungan bank sampah"] },
+                { q: "Manakah dari berikut ini yang merupakan contoh perbandingan berbalik nilai dalam kegiatan Adiwiyata?", options: ["Kecepatan debit kran dan waktu pengisian kolam", "Jumlah siswa kerja bakti dan waktu pembersihan taman", "Jumlah tanaman dan kebutuhan pupuk cair", "Jumlah bak komposter dan waktu habisnya dedaunan"], a: ["Kecepatan debit kran dan waktu pengisian kolam", "Jumlah siswa kerja bakti dan waktu pembersihan taman", "Jumlah bak komposter dan waktu habisnya dedaunan"] },
+                { q: "Jika skala denah kebun sekolah 1 : 100.000, maka pernyataan yang benar adalah...", options: ["1 cm di denah = 1 km di lapangan", "2 cm di denah = 2 km di lapangan", "5 cm di denah = 10 km di lapangan", "10 cm di denah = 1 km di lapangan"], a: ["1 cm di denah = 1 km di lapangan", "2 cm di denah = 2 km di lapangan"] },
+                { q: "Campuran kompos dibuat dengan perbandingan dedaunan dan kotoran ternak 3 : 1. Manakah takaran yang sesuai?", options: ["300 gram dedaunan, 100 gram kotoran", "150 gram dedaunan, 50 gram kotoran", "600 gram dedaunan, 300 gram kotoran", "450 gram dedaunan, 150 gram kotoran"], a: ["300 gram dedaunan, 100 gram kotoran", "150 gram dedaunan, 50 gram kotoran", "450 gram dedaunan, 150 gram kotoran"] },
+                { q: "Rasio 1 jam pemilahan sampah : 30 menit pengomposan senilai dengan...", options: ["2 : 1", "60 : 30", "120 : 60", "4 : 3"], a: ["2 : 1", "60 : 30", "120 : 60"] },
+                { q: "Pernyataan yang menggunakan konsep rasio dalam program Adiwiyata adalah...", options: ["Debit kran hemat air 60 liter/jam", "Skala denah kebun sekolah 1:1.000", "Resep kompos butuh 2 ember air untuk 10 kg dedaunan", "Harga 1 pot tanaman Rp 10.000"], a: ["Debit kran hemat air 60 liter/jam", "Skala denah kebun sekolah 1:1.000", "Resep kompos butuh 2 ember air untuk 10 kg dedaunan"] },
+                { q: "Pembersihan kolam ikan Adiwiyata dapat diselesaikan oleh 4 siswa dalam 6 hari. Manakah pernyataan yang benar?", options: ["Jika dikerjakan 2 siswa, selesai dalam 12 hari", "Jika dikerjakan 8 siswa, selesai dalam 3 hari", "Jika ingin selesai dalam 1 hari, butuh 10 siswa", "Jika ingin selesai dalam 2 hari, butuh 12 siswa"], a: ["Jika dikerjakan 2 siswa, selesai dalam 12 hari", "Jika dikerjakan 8 siswa, selesai dalam 3 hari", "Jika ingin selesai dalam 2 hari, butuh 12 siswa"] },
+                { q: "Perbandingan 1 lusin pot daur ulang : 1 kodi bibit pohon adalah...", options: ["12 : 20", "3 : 5", "6 : 10", "1 : 1.67"], a: ["12 : 20", "3 : 5", "6 : 10"] },
+                { q: "Sebuah sistem penyiraman otomatis menghabiskan 1 liter pupuk cair untuk 12 pot tanaman. Manakah pernyataan yang benar?", options: ["Untuk 36 pot butuh 3 liter", "Untuk 60 pot butuh 5 liter", "Dengan 10 liter bisa menyiram 100 pot", "Dengan 2 liter bisa menyiram 24 pot"], a: ["Untuk 36 pot butuh 3 liter", "Untuk 60 pot butuh 5 liter", "Dengan 2 liter bisa menyiram 24 pot"] },
+            ],
+            isian: [
+                { q: "Perbandingan bibit pohon ketapang dan puring di kebun sekolah adalah 5 : 4. Jika bibit ketapang ada 40, maka jumlah bibit puring adalah... batang.", a: "32" },
+                { q: "Bentuk paling sederhana dari rasio 75 cm tanaman hias : 1.5 m pohon pelindung adalah...", a: "1:2" },
+                { q: "Pembuatan kolam TOGA dikerjakan oleh 8 kader Adiwiyata selesai dalam 15 hari. Jika dikerjakan 6 orang, akan selesai dalam... hari", a: "20" },
+                { q: "Dalam kelompok Adiwiyata, perbandingan kader laki-laki dan perempuan adalah 2:3. Jika jumlah kader 35 siswa, maka jumlah kader laki-laki adalah...", a: "14" },
+                { q: "Skala denah kebun Adiwiyata 1 : 300. Jika panjang kebun pada denah 5 cm, panjang sebenarnya adalah... meter", a: "15" },
+                { q: "Harga 3 kg kompos matang Adiwiyata adalah Rp 90.000. Harga 5 kg kompos matang adalah Rp...", a: "150000" },
+                { q: "Untuk menyiram kebun seluas 90 m², dibutuhkan 6 liter pupuk cair. Jika tersedia 10 liter pupuk cair, luas kebun yang dapat disiram adalah... m²", a: "150" },
+                { q: "Jumlah botol plastik daur ulang Doni dan Dodi adalah 80. Perbandingannya 3:5. Jumlah botol Doni adalah...", a: "30" },
+                { q: "Sebuah tiang komposter tingginya 2 meter memiliki bayangan 50 cm. Pada saat yang sama, bayangan sebuah pohon puring 2 meter. Tinggi pohon puring tersebut adalah... meter", a: "8" },
+                { q: "Rumah bibit Adiwiyata memiliki persediaan pupuk cair untuk 20 pot selama 15 hari. Jika tanaman bertambah 5 pot, persediaan pupuk cair akan habis dalam... hari", a: "12" },
+            ],
+            benarSalah: [
+                { q: "Rasio 3 kg sampah organik : 4 kg sampah anorganik senilai dengan 6 : 8.", a: true },
+                { q: "Semakin banyak siswa yang ikut kerja bakti Adiwiyata, semakin lama waktu pembersihan. Ini adalah perbandingan senilai.", a: false },
+                { q: "Skala denah taman 1 : 500 lebih besar daripada skala 1 : 1.000.", a: true },
+                { q: "Jika perbandingan pupuk A:B = 1:3, maka volume pupuk B selalu 3 kali volume pupuk A.", a: true },
+                { q: "Semakin cepat debit kran hemat air, semakin sedikit waktu untuk mengisi kolam. Ini adalah perbandingan berbalik nilai.", a: true },
+                { q: "Jika harga 1 bibit cabai Rp 2.000, maka harga 5 bibit cabai Rp 12.000.", a: false },
+                { q: "Rasio antara 500 gram pupuk dan 2 kg dedaunan adalah 1:4.", a: true },
+                { q: "Jika pemilahan sampah diselesaikan 10 kader dalam 4 hari, maka jika dikerjakan 8 kader akan selesai dalam 5 hari.", a: true },
+                { q: "Perbandingan jumlah tempat sampah organik dan anorganik di setiap kelas Adiwiyata adalah 1:1.", a: true },
+                { q: "Jika dalam 1 jam kader Adiwiyata memilah 30 kg sampah, maka dalam 2.5 jam dapat memilah 75 kg sampah.", a: true },
+            ]
+        };
+
+        const typeTitles = {
+            pg: "Pilihan Ganda",
+            pgk: "Pilihan Ganda Kompleks",
+            isian: "Isian Singkat",
+            benarSalah: "Benar atau Salah"
+        };
+        
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function startQuiz() {
+            studentName = document.getElementById('student-name').value.trim();
+            if (!studentName) {
+                alert('Silakan masukkan nama Anda!');
+                return;
+            }
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+
+            for (const type in allQuestions) {
+                let questions = allQuestions[type];
+                shuffleArray(questions);
+                quizQuestions.push(...questions.slice(0, 3).map(q => ({...q, type})));
+            }
+            totalQuestions = quizQuestions.length;
+            shuffleArray(quizQuestions); 
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const questionData = quizQuestions[currentQuestionIndex];
+            document.getElementById('question-type-title').innerText = typeTitles[questionData.type];
+            document.getElementById('question-text').innerText = (currentQuestionIndex + 1) + ". " + questionData.q;
+            
+            const optionsContainer = document.getElementById('answer-options');
+            optionsContainer.innerHTML = ''; 
+
+            switch(questionData.type) {
+                case 'pg':
+                    questionData.options.forEach(opt => {
+                        optionsContainer.innerHTML += `<div><input type="radio" name="answer" value="${opt}" id="${opt}"><label for="${opt}"> ${opt}</label></div>`;
+                    });
+                    break;
+                case 'pgk':
+                    questionData.options.forEach(opt => {
+                        optionsContainer.innerHTML += `<div><input type="checkbox" name="answer" value="${opt}" id="${opt}"><label for="${opt}"> ${opt}</label></div>`;
+                    });
+                    break;
+                case 'isian':
+                    optionsContainer.innerHTML = '<input type="text" id="isian-answer" placeholder="Jawaban singkat">';
+                    break;
+                case 'benarSalah':
+                    optionsContainer.innerHTML = `
+                        <div><input type="radio" name="answer" value="true" id="benar"><label for="benar"> Benar</label></div>
+                        <div><input type="radio" name="answer" value="false" id="salah"><label for="salah"> Salah</label></div>`;
+                    break;
+            }
+            document.getElementById('feedback').innerText = '';
+            document.getElementById('submit-btn').disabled = false;
+            document.getElementById('submit-btn').classList.remove('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+        }
+
+        function checkAnswer() {
+            const questionData = quizQuestions[currentQuestionIndex];
+            let userAnswer;
+            let isCorrect = false;
+
+            switch(questionData.type) {
+                case 'pg':
+                case 'benarSalah':
+                    const selectedRadio = document.querySelector('input[name="answer"]:checked');
+                    if (selectedRadio) {
+                        userAnswer = selectedRadio.value;
+                        isCorrect = userAnswer == questionData.a.toString();
+                    }
+                    break;
+                case 'pgk':
+                    const selectedCheckboxes = Array.from(document.querySelectorAll('input[name="answer"]:checked')).map(cb => cb.value);
+                    userAnswer = selectedCheckboxes.join(', ');
+                    isCorrect = selectedCheckboxes.length === questionData.a.length && selectedCheckboxes.every(val => questionData.a.includes(val));
+                    break;
+                case 'isian':
+                    userAnswer = document.getElementById('isian-answer').value.trim();
+                    isCorrect = userAnswer.toLowerCase() === questionData.a.toLowerCase();
+                    break;
+            }
+
+            const feedbackEl = document.getElementById('feedback');
+            if (isCorrect) {
+                feedbackEl.innerText = 'Jawaban Benar!';
+                feedbackEl.className = 'feedback correct';
+                score += (100 / totalQuestions);
+                document.getElementById('live-score').innerText = Math.round(score);
+            } else {
+                feedbackEl.innerText = 'Jawaban Kurang Tepat.';
+                feedbackEl.className = 'feedback incorrect';
+            }
+            
+            studentAnswers.push({
+                question: questionData.q,
+                answer: userAnswer || "Tidak dijawab",
+                status: isCorrect ? 'Benar' : 'Salah'
+            });
+
+            document.getElementById('submit-btn').disabled = true;
+            document.getElementById('submit-btn').classList.add('hidden');
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizQuestions.length) {
+                loadQuestion();
+            } else {
+                endQuiz();
+            }
+        }
+
+        function endQuiz() {
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('end-screen').classList.remove('hidden');
+            document.getElementById('final-student-name').innerText = studentName;
+            document.getElementById('final-score').innerText = Math.round(score);
+
+            sendDataToSheet();
+        }
+
+        async function sendDataToSheet() {
+            const finalScore = Math.round(score);
+            const params = {
+                nama: studentName,
+                skor: finalScore,
+                jawaban: JSON.stringify(studentAnswers)
+            };
+            
+            const formData = new URLSearchParams(params).toString();
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                });
+            } catch (error) {
+                console.error('Error sending data:', error);
+            }
+        }
+    </script>
+</body>
+</html>
